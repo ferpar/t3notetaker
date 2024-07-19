@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import type { Topic } from "@prisma/client";
 import type { Session } from "next-auth";
 import { api } from "~/trpc/react";
+import { NoteEditor } from "./NoteEditor";
 
 type Props = {
   sessionData: Session | null;
@@ -22,6 +23,19 @@ export const Content = ({ sessionData }: Props) => {
       void refetchTopics();
     },
   });
+
+  const { data: notes, refetch: refetchNotes } = api.note.getAll.useQuery(
+    { topicId: selectedTopic?.id ?? "" },
+    {
+      enabled: sessionData?.user !== undefined && selectedTopic !== null
+    }
+  )
+
+  const createNote = api.note.create.useMutation({
+    onSuccess: () => {
+      void refetchNotes();
+    }
+  })
 
   useEffect(() => {
     setSelectedTopic( selectedTopic => selectedTopic ?? topics?.[0] ?? null);
@@ -61,7 +75,17 @@ export const Content = ({ sessionData }: Props) => {
           }}
         />
       </div>
-      <div className="col-span-3"></div>
+      <div className="col-span-3">
+        <NoteEditor 
+          onSave={({title, content}) => {
+            void createNote.mutate({
+              title,
+              content,
+              topicId: selectedTopic?.id ?? ""
+            })
+          }}
+        />
+      </div>
     </div>
   );
 };
