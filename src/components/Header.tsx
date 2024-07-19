@@ -1,13 +1,12 @@
 "use client"
 import { signOut, signIn } from "next-auth/react";
-import { Session } from "next-auth";
+import type { Session } from "next-auth";
 
 type HeaderProps = {
   sessionData: Session | null;
 };
 
 export const Header = ({ sessionData }: HeaderProps) => {
-  // const { data: sessionData } = useSession();
 
   return (
     <div className="navbar bg-primary text-primary-content">
