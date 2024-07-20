@@ -21,7 +21,9 @@ export const NoteEditor = ({
             placeholder="Note title"
             className="input input-lg input-primary w-full font-bold"
             value={title}
-            onChange={(e) => setTitle(e.currentTarget.value)}
+            onChange={(e) => {
+              console.log(e.currentTarget.value);
+              setTitle(e.currentTarget.value)}}
           />
         </h2>
         <CodeMirror
