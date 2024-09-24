@@ -46,7 +46,7 @@ export const Content = ({ sessionData }: Props) => {
     setSelectedTopic( selectedTopic => selectedTopic ?? topics?.[0] ?? null);
   }, [topics]);
 
-  return (
+  return sessionData?.user ? (
     <div className="mx-5 mt-5 grid grid-cols-4 gap-2">
       <div className="px-2">
         <ul className="menu w-56 rounded-box bg-base-100 p-2">
@@ -102,5 +102,7 @@ export const Content = ({ sessionData }: Props) => {
         />
       </div>
     </div>
+  ) : (
+    <div className="mx-5 mt-5">Sign in with github to see your notes</div>
   );
 };
