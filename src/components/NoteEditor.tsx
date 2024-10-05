@@ -23,12 +23,12 @@ export const NoteEditor = ({
             value={title}
             onChange={(e) => {
               console.log(e.currentTarget.value);
-              setTitle(e.currentTarget.value)}}
+              setTitle(e.currentTarget.value);
+            }}
           />
         </h2>
         <CodeMirror
           value={code}
-          width="500px"
           height="30vh"
           minWidth="100%"
           minHeight="30vh"
@@ -38,19 +38,19 @@ export const NoteEditor = ({
           onChange={(value) => setCode(value)}
           className="boder-gray-300 border"
         />
-      </div>
-      <div className="card-actions justify-end">
-        <button
-          onClick={() => {
-            onSave({ title, content: code });
-            setCode("");
-            setTitle("");
-          }}
-          className="btn btn-primary m-4"
-          disabled={title.trim().length === 0 || code.trim().length === 0}
-        >
-          Save
-        </button>
+        <div className="card-actions justify-end">
+          <button
+            onClick={() => {
+              onSave({ title, content: code });
+              setCode("");
+              setTitle("");
+            }}
+            className="btn btn-primary btn-sm"
+            disabled={title.trim().length === 0 || code.trim().length === 0}
+          >
+            Save
+          </button>
+        </div>
       </div>
     </div>
   );

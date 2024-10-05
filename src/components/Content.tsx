@@ -49,7 +49,7 @@ export const Content = ({ sessionData }: Props) => {
   }, [topics]);
 
   return sessionData?.user ? (
-    <div className="mx-5 mt-5 grid grid-cols-4 gap-2">
+    <div className="mx-5 mt-5 grid grid-cols-1 md:grid-cols-4 gap-2">
       <div className="px-2">
         <ul className="menu w-56 rounded-box bg-base-100 p-2">
           {topics?.map((topic) => (
