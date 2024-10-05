@@ -1,7 +1,8 @@
 "use client";
 import { signOut, signIn } from "next-auth/react";
 import type { Session } from "next-auth";
-import Image, { ImageLoaderProps } from "next/image";
+import Image from "next/image";
+import type { ImageLoaderProps } from "next/image";
 
 type HeaderProps = {
   sessionData: Session | null;
