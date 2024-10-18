@@ -15,25 +15,27 @@ export const noteRouter = createTRPCRouter({
   create: protectedProcedure
     .input(
       z.object({
-        title: z.string(), content: z.string(), topicId: z.string()
-      })
+        title: z.string(),
+        content: z.string(),
+        topicId: z.string(),
+      }),
     )
-    .mutation( async({ ctx, input}) => {
+    .mutation(async ({ ctx, input }) => {
       return ctx.db.note.create({
         data: {
           title: input.title,
           topicId: input.topicId,
-          content: input.content
-        }
-      })
+          content: input.content,
+        },
+      });
     }),
-    delete: protectedProcedure
-      .input(z.object({ id: z.string() }))
-      .mutation(async ({ ctx, input }) => {
-        return ctx.db.note.delete({
-          where: {
-            id: input.id
-          }
-        })
-      })
+  delete: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.note.delete({
+        where: {
+          id: input.id,
+        },
+      });
+    }),
 });
