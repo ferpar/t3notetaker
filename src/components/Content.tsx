@@ -4,8 +4,7 @@ import type { Topic } from "@prisma/client";
 import type { Session } from "next-auth";
 import { api } from "~/trpc/react";
 import { NoteEditor } from "./NoteEditor";
-import { NoteCard } from "./NoteCard";
-import { set } from "zod";
+import { EditableNote } from "./EditableNote";
 
 type Props = {
   sessionData: Session | null;
@@ -41,6 +40,10 @@ export const Content = ({ sessionData }: Props) => {
   });
 
   const deleteNote = api.note.delete.useMutation({
+    onSuccess: () => void refetchNotes(),
+  });
+
+  const updateNote = api.note.update.useMutation({
     onSuccess: () => void refetchNotes(),
   });
 
@@ -90,9 +93,16 @@ export const Content = ({ sessionData }: Props) => {
         <div>
           {notes?.map((note) => (
             <div key={note.id}>
-              <NoteCard
+              <EditableNote
                 note={note}
                 onDelete={() => void deleteNote.mutate({ id: note.id })}
+                onSave={({ title, content }) => {
+                  void updateNote.mutate({
+                    id: note.id,
+                    title,
+                    content,
+                  });
+                }}
               />
             </div>
           ))}

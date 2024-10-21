@@ -6,11 +6,15 @@ import { languages } from "@codemirror/language-data";
 
 export const NoteEditor = ({
   onSave,
+  onCancelEdit,
+  note
 }: {
   onSave: (note: { title: string; content: string }) => void;
+  onCancelEdit?: () => void;
+  note?: { title: string; content: string };
 }) => {
-  const [code, setCode] = useState<string>("");
-  const [title, setTitle] = useState<string>("");
+  const [code, setCode] = useState<string>(note?.content ?? "");
+  const [title, setTitle] = useState<string>(note?.title ?? "");
 
   return (
     <div className="card mt-5 border border-gray-200 bg-base-100 shadow-xl">
@@ -39,13 +43,22 @@ export const NoteEditor = ({
           className="boder-gray-300 border"
         />
         <div className="card-actions justify-end">
+          {onCancelEdit && (
+            <button
+              onClick={onCancelEdit}
+              className="btn btn-secondary btn-sm px-5"
+            >
+              Cancel
+            </button>  
+          )
+          }
           <button
             onClick={() => {
               onSave({ title, content: code });
               setCode("");
               setTitle("");
             }}
-            className="btn btn-primary btn-sm"
+            className="btn btn-primary btn-sm px-5"
             disabled={title.trim().length === 0 || code.trim().length === 0}
           >
             Save
