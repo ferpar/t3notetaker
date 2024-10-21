@@ -119,6 +119,6 @@ export const Content = ({ sessionData }: Props) => {
       </div>
     </div>
   ) : (
-    <div className="mx-5 mt-5">Sign in with github to see your notes</div>
+    <div className="mx-5 mt-5">Sign in with google or github to see your notes</div>
   );
 };
