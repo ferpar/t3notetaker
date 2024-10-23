@@ -47,12 +47,14 @@ export const Content = ({ sessionData }: Props) => {
     onSuccess: () => void refetchNotes(),
   });
 
+  const noTopics = topics?.length === 0;
+
   useEffect(() => {
     setSelectedTopic((selectedTopic) => selectedTopic ?? topics?.[0] ?? null);
   }, [topics]);
 
   return sessionData?.user ? (
-    <div className="mx-5 mt-5 grid grid-cols-1 md:grid-cols-4 gap-2">
+    <div className="mx-5 mt-5 grid grid-cols-1 gap-2 md:grid-cols-4">
       <div className="px-2">
         <ul className="menu w-56 rounded-box bg-base-100 p-2">
           {topics?.map((topic) => (
@@ -71,13 +73,16 @@ export const Content = ({ sessionData }: Props) => {
           ))}
         </ul>
         <div className="divider"></div>
-        <form className="flex flex-col" onSubmit={e => {
-          e.preventDefault();
-          createTopic.mutate({
-            title: newTopic,
-          });
-          setNewTopic("");
-        }}>
+        <form
+          className="flex flex-col"
+          onSubmit={(e) => {
+            e.preventDefault();
+            createTopic.mutate({
+              title: newTopic,
+            });
+            setNewTopic("");
+          }}
+        >
           <input
             type="text"
             placeholder="New topic"
@@ -107,18 +112,24 @@ export const Content = ({ sessionData }: Props) => {
             </div>
           ))}
         </div>
-        <NoteEditor
-          onSave={({ title, content }) => {
-            void createNote.mutate({
-              title,
-              content,
-              topicId: selectedTopic?.id ?? "",
-            });
-          }}
-        />
+        {noTopics ? (
+          <div className="mx-5 mt-5">Create a topic to add notes</div>
+        ) : (
+          <NoteEditor
+            onSave={({ title, content }) => {
+              void createNote.mutate({
+                title,
+                content,
+                topicId: selectedTopic?.id ?? "",
+              });
+            }}
+          />
+        )}
       </div>
     </div>
   ) : (
-    <div className="mx-5 mt-5">Sign in with google or github to see your notes</div>
+    <div className="mx-5 mt-5">
+      Sign in with google or github to see your notes
+    </div>
   );
 };
